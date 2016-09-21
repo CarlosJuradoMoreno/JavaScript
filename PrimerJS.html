@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script>
+	var cuenta=10;
+	var intervalo=setInterval(function(){
+		if(cuenta>0){
+			cuenta--;	
+			document.getElementById('num').innerHTML=cuenta;
+		} if(cuenta==0){
+			document.getElementById('num').innerHTML="FIN";
+		}
+		
+	},1000);
+
+	</script>
+</head>
+<body>
+	<div id="num">10</div>
+</body>
+</html>
