@@ -3,16 +3,50 @@
 <head>
 	<meta charset="UTF-8">
 	<title>JsCompartido</title>
+	<style>
+		#content {
+            width: 600px;
+            height: 400px;
+            position: absolute;
+        }
+        #buttons {
+            text-align: center;
+        }
+        .pelota {
+            width: 100px;
+            height: 100px;
+            position: absolute;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+      
+	</style>
 	<script>
-	function move(){
+	/*function move(){
 		document.getElementById('bola').src="";
+	}*/
+	var contPelota = 1;
+	
+	function inicio() {
+		document.getElementById("botonPelota").disabled = true;
+	}
+
+	function creaPelota(){
+		var pelota = document.createElement("div");
+		pelota.className = "pelota";
+		pelota.onclick = seleccion;
+		pelota.style.left = getRand(50, 550) + "px";
+		pelota.style.top = getRand(50, 350) + "px";
+		pelota.id = contPelota;
+		pelota.value = 0;
+		contPelota++;
 	}
 
 	</script>
 </head>
 <body>
 	<div>
-		<img id="bola" src="IMG/ball.png" onclick="move()"/>
+		<img id="pelota" src="IMG/Ball.png" onclick="move()"/>
 	</div>
 	<p id="ej"></p>
 	
