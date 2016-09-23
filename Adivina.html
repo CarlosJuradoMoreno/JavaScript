@@ -1,0 +1,88 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<title>Adivina el Numero</title>
+</head>
+	<script type="text/javascript">
+	var num;
+	var intervalo;
+	var intentos=0;
+	function cuenta(){
+		document.getElementById("tiempo").innerHTML="Tiempo: ";
+		document.getElementById("go").disabled=true;
+		intentos=0;
+		document.getElementById("intentos").innerHTML=intentos;
+		
+		num=10;
+		intervalo=setInterval(function(){
+		if(num>=0){
+			document.getElementById("numero").innerHTML=num;
+			num--;
+		}else {
+			document.getElementById("numero").innerHTML="Cuenta Terminada";
+			document.getElementById("trynum").disabled=true;
+		document.getElementById("try").disabled=true;
+		clearInterval(intervalo);
+	}
+	},1000);
+
+		document.getElementById("trynum").disabled=false;
+		document.getElementById("try").disabled=false;
+	}
+	var aleatorio=Math.floor((Math.random()*10)+1);	//Numero Aleatorio
+	//Comprueba cada vez que se pulsa el boton, el si se acierta el numero, aumenta contador
+	function check(){
+		limpiar();
+		if(document.getElementById("trynum").value==aleatorio){			//Acierto
+			document.getElementById("acierto").innerHTML="Enhorabuena, Acertaste";
+			document.getElementById("trynum").disabled=true;
+			document.getElementById("try").disabled=true;
+			clearInterval(intervalo);
+			intentos++;
+			document.getElementById("intentos").innerHTML=intentos;
+		}else{		//Fallo
+			document.getElementById("fallo").innerHTML="Prueba de nuevo";
+			document.getElementById("trynum").value=" ";
+			intentos++;
+			document.getElementById("intentos").innerHTML=intentos;
+		}
+	}
+	//Limpia los paneles
+	function limpiar(){
+		document.getElementById("acierto").innerHTML="";
+		document.getElementById("fallo").innerHTML="";
+	}
+	//Resetea todo
+	function restart(){
+		document.getElementById("trynum").disabled=true;
+		document.getElementById("try").disabled=true;
+		limpiar();
+		document.getElementById("tiempo").innerHTML="";
+		document.getElementById("numero").innerHTML="";
+		document.getElementById("go").disabled=false;
+		clearInterval(intervalo);
+		aleatorio=Math.floor((Math.random()*10)+1);
+		intentos=0;
+	}
+	
+	
+
+	</script>
+<body>
+	<h3>Cuenta Atras</h3>
+	<input type="button" id="go" value="Empezar" onclick=cuenta()>
+	<span id="tiempo"></span>	
+	<span id="numero"></span> 
+	<br>
+	<span>Intentos: </span><span id="intentos"></span><br>
+	<input type="text" id="trynum" disabled=true>
+	<input type="button" id="try" value="Comprueba" onclick=check() disabled=true>
+
+	<p id="fallo"></p>
+	<h2 id="acierto"></h2>
+
+
+	<input type="button" value="Otra vez" onclick=restart()>
+	
+</body>
+</html>
