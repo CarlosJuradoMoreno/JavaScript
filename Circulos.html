@@ -3,21 +3,69 @@
 <head>
 	<title>Circulitos</title>
 	<style>
-	div{
+	.bola{
 		border-radius: 100px ;
 		background-color:black;
-		height: 50px;
-		width: 50px;
+		position:absolute;
 	}
+	div{
+		width: 500px;
+		height: 500px;
+		position:relative;
+	}
+
 	</style>
+
 	<script>
 
+	//CREAR FUNCION BORRAR ON CLICK
+	var contBola=0;
+	function bola() {
+			//Crea capa
+			
+            var bola = document.createElement("div");
+            //Asigna clase
+            var newColor = "rgb(" + Math.floor(Math.random() * 255) + "," + Math.floor(Math.random() * 255) + "," + Math.floor(Math.random() * 255) + ")";
+			bola.style.backgroundColor = newColor;
+			bola.className = "bola";
+            
+			
+			//Posiciona tamaño
+			var tam=getRand(20,50);
+            bola.style.width = tam + "px";
+            bola.style.height = tam + "px";
+            //Da ID
+			bola.id = contBola;
+			//incrementamos el contador
+            contBola++;
+			//directamente añado la capa pez a la pecera
+            bola.style.left=getRand(1,500) + "px";
+            bola.style.top=getRand(1,500)+ "px";
+            document.getElementById("div").appendChild(bola);
+            //Asigna evento onclick
+			bola.setAttribute("onclick", "borrarBola(this)");
+
+        }
+
+        function borrar(){
+        	var bolas;
+        	bolas=document.getElementsByClassName("bola");
+        	for (var i =0;i<bolas.length; i++){
+        		bolas[i].parentNode.removeChild(bolas[i]);
+        	}
+        }
+        function borrarBola(bol){
+        	bol.parentNode.removeChild(bol);
+        }
+        function getRand(min, max) {
+            return Math.random() * (max - min) + min;
+        }
 
 	</script>
 </head>
 <body>
-	<span><input type="button" value="crea" id="crear"/>
-	<input type="button" value="reset" id="reset" onclick=bola()/></span>
-	<div></div>
+	<input type="button" value="crea" id="crear" onclick=bola() />
+	<input type="button" value="reset" id="reset" onclick=borrar() />
+	<div id="div"></div>
 </body>
 </html>
