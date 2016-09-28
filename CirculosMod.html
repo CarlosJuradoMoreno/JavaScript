@@ -13,9 +13,11 @@
 		height: 500px;
 		position:relative;
 	}
+
 	</style>
 
 	<script>
+
 	//CREAR FUNCION BORRAR ON CLICK
 	var contBola=0;
 	function bola() {
@@ -27,7 +29,7 @@
 			bola.style.backgroundColor = newColor;
 			bola.className = "bola";
             
-			
+			bola.value=0;
 			//Posiciona tamaño
 			var tam=getRand(20,50);
             bola.style.width = tam + "px";
@@ -41,26 +43,53 @@
             bola.style.top=getRand(1,500)+ "px";
             document.getElementById("div").appendChild(bola);
             //Asigna evento onclick
-			bola.setAttribute("onclick", "borrarBola(this)");
+			bola.setAttribute("onclick", "incrementa(this)");
+			bola.setAttribute("ondblclick", "mueve(this)");
+			
         }
+
         function borrar(){
         	var bolas;
-        	bolas=document.getElementsByClassName("bola");
+        	bolas=document.querySelectorAll(".bola");
+
         	for (var i =0;i<bolas.length; i++){
         		bolas[i].parentNode.removeChild(bolas[i]);
         	}
         }
+
+        
         function borrarBola(bol){
         	bol.parentNode.removeChild(bol);
         }
+		function incrementa(bol){
+			bol.value++;
+			document.getElementById("text").innerHTML="Has clickado "+bol.value+" veces esta bolita";
+		}
+		function mueve(bol){
+			var time=10;
+			var cont=0;
+			var inter=setInterval(function (){
+				if(bol.offsetLeft<800){
+					bol.style.left= (bol.offsetLeft+1) + 'px';
+				}else{
+					clearInterval(inter);
+					bol.parentNode.removeChild(bol);
+				
+}			},time);
+		}
+
+		
+
         function getRand(min, max) {
             return Math.random() * (max - min) + min;
         }
+
 	</script>
 </head>
 <body>
 	<input type="button" value="crea" id="crear" onclick=bola() />
 	<input type="button" value="reset" id="reset" onclick=borrar() />
+	<span id="text"></span>
 	<div id="div"></div>
 </body>
 </html>
