@@ -4,6 +4,14 @@
 </head>
 
 <style>
+*{
+		-webkit-touch-callout: none; /* iOS Safari */
+		-webkit-user-select: none;   /* Chrome/Safari/Opera */
+		-khtml-user-select: none;    /* Konqueror */
+		-moz-user-select: none;      /* Firefox */
+		-ms-user-select: none;       /* Internet Explorer/Edge */
+		user-select: none;
+	}
 body{
 		margin: 0px;
 }
@@ -39,66 +47,102 @@ body{
 
 </style>
 <script type="text/javascript">
+	var edificiosTotales=0;
+	var numBombas=10;
+	var velocidad=2;
+
 	function start(){
 		document.getElementById("start").style.visibility="hidden";
 		var avion=document.getElementById("avion");
 		
 		var inter = setInterval(function (){
 			if(avion.offsetLeft<1000){
-					avion.style.left = (avion.offsetLeft+1) + 'px';
+					avion.style.left = (avion.offsetLeft+velocidad) + 'px';
 				}else{
 					avion.style.left= -50 +"px";
 				}
 		},10);
 
 		generaEdificios();
+		document.getElementById("numBombas").innerHTML=numBombas;
 	}
 
 	//Generador edificios
+	var edif = [];
 	function generaEdificios(){
 		var edificios=random(3,6);
+		edificiosTotales=edificios;
+		document.getElementById("edificiosTotales").innerHTML=edificiosTotales;
 		for (var i=0;i<edificios;i++){
 			var edificio = document.createElement("img");
 			edificio.className="edificio";
 			//Posicion edificio
-			var pos=avion.offsetLeft;
-			edificio.style.left=random(1,950)+ "px";
+			var pos=random(1,950);
+			edificio.style.left=pos+ "px";
 			edificio.style.top=450+"px";
 			//Imagen edificio
 			edificio.setAttribute("src","IMG/edif"+random(1,3)+".png");	
 			//Crear edificio
 			document.getElementById("map").appendChild(edificio);
+			edif[i]=edificio;
+
 		}
+
 	}
 
 //Creamos bomba
 	function bomba(avion){
-		var bomba = document.createElement("img");
-		bomba.className="bomba";
-		//Posicion bomba
-		var pos=avion.offsetLeft;
-		bomba.style.left=pos+ "px";
-		//Imagen bomba
-		bomba.setAttribute("src","IMG/bomb.png");	
-		//Crear bomba
-		document.getElementById("map").appendChild(bomba);
-
-		//Momvimiento bomba
-		var inter = setInterval(function (){
-			if(bomba.offsetTop<550){
-					bomba.style.top = (bomba.offsetTop+1) + 'px';
-				}else{
-					clearInterval(inter);
-					boom(bomba);
-					bomba.parentNode.removeChild(bomba);
-
+		
+		if(numBombas!=1){
+			numBombas--;
+			document.getElementById("numBombas").innerHTML=numBombas;	//DECREMENTAR NUMERO DE BOMBAS
+			var bomba = document.createElement("img");
+			bomba.className="bomba";
+			//Posicion bomba
+			var pos=avion.offsetLeft;
+			bomba.style.left=pos+ "px";
+			//Imagen bomba
+			bomba.setAttribute("src","IMG/bomb.png");	
+			//Crear bomba
+			document.getElementById("map").appendChild(bomba);
+			document.getElementById("numBombas").innerHTML=numBombas;
+			//Momvimiento bomba
+		
+			var inter = setInterval(function (){
+				if(bomba.offsetTop==550){
 					
-					
-				}
-		},1);
+						for (var i = 0;i < edif.length;i++){
+							if((bomba.offsetLeft>=edif[i].offsetLeft)&&(bomba.offsetLeft<edif[i].offsetLeft+50)){
+								edif[i].parentNode.removeChild(edif[i]);
+								edificiosTotales--;	
+								
+								document.getElementById("edificiosTotales").innerHTML=edificiosTotales;
+								if(edificiosTotales==0){			//Si rompe todos los edificios
+									nivel();
+								}
+							}
+						}
+						clearInterval(inter);
+						boom(bomba);
+						bomba.parentNode.removeChild(bomba);
+					}else{
+						bomba.style.top = (bomba.offsetTop+1) + 'px';
+					}
+			},1);
+		}else{
+
+			document.getElementById("numBombas").innerHTML="0";	//DECREMENTAR NUMERO DE BOMBAS
+			document.getElementById("fin").innerHTML="FIN";
+		}
+	}
+	function nivel(){
+		velocidad=velocidad+1;
+		numBombas+=20;
+		generaEdificios();
 	}
 
-//CREAR EXPLOSION EN LUGAR DONDE CAE LA BOMBA
+
+
 	function boom(bomba){
 		var boom = document.createElement("img");
 		boom.setAttribute("src","IMG/boom.png");
@@ -123,9 +167,13 @@ body{
 <div id="map">
 	<div id="avion" onclick="bomba(this)"><img src="IMG/plane.png"  /> </div>
 	<button id="start" onclick=start() >Start</button>
-	
+	Bombas: <span id="numBombas" disabled></span><br>
+	Edificios: <span id="edificiosTotales" disabled></span><br>
+	<h1 id="fin"></h1>
+
 
 </div>
+
 
 </body>
 </html>
