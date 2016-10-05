@@ -1,0 +1,51 @@
+<html>
+<head>
+	<title>Genera Circulos</title>
+</head>
+<style type="text/css">
+body{
+	margin: 0px;
+}
+#map{
+	background-color: #ffd480;
+	height: 600px;
+	width: 600px;
+	position: relative;
+}
+.bola{
+	border-radius: 100px;
+	background-color:  #809fff;
+	position: absolute;
+	width: 30px;
+	height: 30px;
+}
+</style>
+
+<script type="text/javascript">
+
+function creaBola(b){
+	var bola= document.createElement("div");
+	bola.className="bola";
+	bola.innerHTML=parseInt(b.innerHTML)+1;
+	bola.setAttribute("onclick","creaBola(this)");
+	bola.setAttribute("ondblclick","borrar(this)");
+	bola.style.left=Math.floor((Math.random()*600)+1);
+	bola.style.top=Math.floor((Math.random()*600)+1);
+	document.getElementById("map").appendChild(bola);
+}
+function borrar(bola){
+	bola.parentNode.removeChild(bola);
+}
+</script>
+
+
+
+
+<body>
+
+	<div id="map">
+
+		<div class="bola" onclick="creaBola(this)" ondblclick="borrar(this)">1</div>
+	</div>
+</body>
+</html>

@@ -115,7 +115,7 @@ body{
 							if((bomba.offsetLeft>=edif[i].offsetLeft)&&(bomba.offsetLeft<edif[i].offsetLeft+50)){
 								edif[i].parentNode.removeChild(edif[i]);
 								edificiosTotales--;	
-								
+
 								document.getElementById("edificiosTotales").innerHTML=edificiosTotales;
 								if(edificiosTotales==0){			//Si rompe todos los edificios
 									nivel();
@@ -146,7 +146,7 @@ body{
 	function boom(bomba){
 		var boom = document.createElement("img");
 		boom.setAttribute("src","IMG/boom.png");
-		boom.style.left=bomba.offsetLeft+"px";
+		boom.style.left=(bomba.offsetLeft-25)+"px";
 		boom.style.top=(bomba.offsetTop-50)+"px";
 		boom.className="boom";
 		document.getElementById("map").appendChild(boom);

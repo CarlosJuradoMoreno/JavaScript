@@ -1,0 +1,178 @@
+<html>
+<head>
+	<title>Carrera de coches</title>
+	<style type="text/css">
+	body{
+		background-color: black;
+	}
+	#map{
+		position:relative;
+	}
+	.coche{
+		position:absolute;
+		
+	}
+	button{
+		position:absolute;
+		left:45%;
+		top:20px;
+		border-radius: 50px;
+		background-color: blue;
+		border: none;
+		width: 90px;
+		height: 30px;
+	}
+	#apostar{
+		border-radius: 50px;
+		background-color: white;
+		border: none;
+	}
+	#empezar{
+		top:60px;
+		visibility: hidden;
+	}
+	#restart{
+		visibility: hidden;
+	}
+	#apuesta{
+		position: absolute;
+		background-color: blue;
+		height: 100px;
+		width: 200px;
+		border-radius: 10px;
+		left: 40%;
+		top:200px;
+		text-align: center;
+	}
+	
+	p{
+		background-color: transparent;
+		position: absolute;
+		opacity: 0.5;
+		left:100px;
+		top:500px;
+		visibility: hidden;
+	}
+	</style>
+
+	<script type="text/javascript">
+	var clasificacion =[];		//Variables para la clasificacion
+	var contCoches=0;
+
+	function start(){
+		document.getElementById("start").style.visibility="hidden";
+		document.getElementById("empezar").style.visibility="visible";
+		document.getElementById("apuesta").style.visibility="hidden";
+
+		for(var i=1;i<=6;i++){
+			var coche =document.createElement("img");
+			coche.className="coche";
+			coche.setAttribute("src","IMG/car"+i+".png");
+			coche.style.top= (i*60) +"px";	//Posicion entre los coches
+			coche.id="coche"+i;
+			document.getElementById("map").appendChild(coche);
+		}
+
+	}
+
+	function move(){	
+	document.getElementById("empezar").style.visibility="hidden";
+	var coche = document.getElementsByClassName("coche");	//Array de coches
+	for(var i=0;i<coche.length;i++){
+		var c =coche[i];
+		go(c);
+	}
+	}
+
+	
+
+	//MUEVE TODOS LOS COCHES
+	function go(c){
+		var inte=setInterval(function(){
+			if(c.offsetLeft>900){
+				clearInterval(inte);
+				clasificacion[contCoches]=c.id;				//IMPORTANTE PASAR LA ID
+				
+				contCoches++;
+				document.getElementById("panel").innerHTML+="<img src='"+c.src+"'/>";		//Escribimos las imagenes del resultado
+				if(contCoches==6){
+					fin();
+				}
+			}else{
+				c.style.left=c.offsetLeft+10+"px";
+			}
+		}, Math.floor((Math.random()*20)+10));
+	}
+
+	function restart(){
+		document.getElementById("restart").style.visibility="hidden";		//botones
+		document.getElementById("start").style.visibility="visible";
+		document.getElementById("apuesta").style.visibility="visible";
+		document.getElementById("apostar").style.visibility="visible";
+		document.getElementById("panel").innerHTML="";
+		for(var i =0; i<clasificacion.length;i++){			//Borramos todos los coches
+			var coche= document.getElementById(clasificacion[i]);
+			coche.parentNode.removeChild(coche);
+		}
+		document.getElementById("panel").style.visibility="hidden";		//panel oculto
+		contCoches=0;
+		clasificacion=[];
+
+
+	}
+	
+	function fin(){
+	document.getElementById("panel").style.visibility="visible";
+	document.getElementById("restart").style.visibility="visible";
+
+	console.log(clasificacion[0]);
+	if(clasificacion[0]==document.getElementById("opciones").value){
+		console.log("Acertaste");
+		document.getElementById("dineroActual").innerHTML=document.getElementById("dineroActual").innerHTML+(document.getElementById("text").value*2);
+	}else{
+		document.getElementById("dineroActual").innerHTML=document.getElementById("dineroActual").innerHTML-document.getElementById("text").value;
+	}
+
+	}
+
+	function apostar(){
+		document.getElementById("apostar").style.visibility="hidden";
+	}
+	
+	//TERMINAR APUESTA
+	</script>
+</head>
+
+
+<body>
+	<div id="map">
+
+
+		<button id="start" onclick=start()>Start!</button>
+		<button id="empezar" onclick=move()>Empezar!</button>
+		<button id="restart" onclick=restart()>Restart</button>
+		
+		<div id="apuesta">
+			
+			<input type="text" id="din"/>
+			Dinero: <span id="dineroActual">1000</span>
+			<select id="opciones">
+				<option>coche1</option>
+				<option>coche2</option>
+				<option>coche3</option>
+				<option>coche4</option>
+				<option>coche5</option>
+				<option>coche6</option>
+			</select>
+			<input type="submit" id="apostar" value="Apostar" onclick="apostar()"/>
+		</form>
+
+		</div>
+
+
+		<p id="panel"></p>
+
+
+	</div>
+</body>
+</html>

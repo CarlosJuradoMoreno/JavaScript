@@ -1,0 +1,154 @@
+<html>
+<head>
+	<title>Avanze</title>
+</head>
+<style>
+
+button {
+  background: #3498db;
+  background-image: -webkit-linear-gradient(top, #3498db, #2980b9);
+  background-image: -moz-linear-gradient(top, #3498db, #2980b9);
+  background-image: -ms-linear-gradient(top, #3498db, #2980b9);
+  background-image: -o-linear-gradient(top, #3498db, #2980b9);
+  background-image: linear-gradient(to bottom, #3498db, #2980b9);
+  -webkit-border-radius: 28;
+  -moz-border-radius: 28;
+  border-radius: 28px;
+  font-family: Arial;
+  color: #ffffff;
+  font-size: 20px;
+  padding: 10px 20px 10px 20px;
+  text-decoration: none;
+}
+
+button:hover {
+  background: #3cb0fd;
+  background-image: -webkit-linear-gradient(top, #3cb0fd, #3498db);
+  background-image: -moz-linear-gradient(top, #3cb0fd, #3498db);
+  background-image: -ms-linear-gradient(top, #3cb0fd, #3498db);
+  background-image: -o-linear-gradient(top, #3cb0fd, #3498db);
+  background-image: linear-gradient(to bottom, #3cb0fd, #3498db);
+  text-decoration: none;
+}
+#coche{
+	width: 40px;
+	height: 40px;
+	position: absolute;
+	background-color: green;
+	top:64%;
+	left:1px;
+
+}
+#carretera{
+	position: absolute;
+	background-color: black;
+	top:70%;
+	width: 100%;
+	height: 30px;
+}
+#puerta{
+	position: absolute;
+	background-color: yellow;
+	top:350px;
+	width: 40px;
+	height: 100px;
+	left: 400px;
+}
+#map{
+	background-color:  #66e0ff;
+	position: relative;
+	width: 1000px;
+	height: 600px;
+	top:20px;
+}
+body{
+	margin: 0;
+}
+
+</style>
+<script type="text/javascript">
+	var abierto=false;
+	var parar=false;
+	var interval;
+
+
+	
+	function avanzar(){
+		var coche=document.getElementById("coche");
+		interval = setInterval(function(){
+			if((coche.offsetLeft)<960&&(abierto)&&(!parar)){
+				coche.style.left=coche.offsetLeft +1 +"px"; 
+			}else if(!abierto&&coche.offsetLeft<360&&(!parar)) {
+				coche.style.left=coche.offsetLeft +1 +"px"; 
+			}else if(coche.offsetLeft>360&&coche.offsetLeft<960){
+				coche.style.left=coche.offsetLeft +1 +"px"; 
+			}else{
+				clearInterval(interval);
+			}
+		},1);
+	}
+	function retroceder(){
+		var coche=document.getElementById("coche");
+		interval = setInterval(function(){
+			if((coche.offsetLeft)>0&&(abierto)&&(!parar)){
+				coche.style.left=coche.offsetLeft-1 +"px"; 
+			}else if(!abierto&&coche.offsetLeft>440&&(!parar)) {
+				coche.style.left=coche.offsetLeft -1 +"px"; 
+			}else if(coche.offsetLeft<400&&coche.offsetLeft>0){
+				coche.style.left=coche.offsetLeft -1 +"px"; 
+			}else{
+				clearInterval(interval);
+			}
+
+
+		},1);
+	}
+	function abrir(){
+		abierto=true;
+		var puerta=document.getElementById("puerta");
+		interval = setInterval(function(){
+			if((puerta.offsetTop)>250){
+				puerta.style.top=puerta.offsetTop-5 +"px"; 
+			}else{
+				clearInterval(interval);
+			}
+			},10);
+	}
+	function cerrar(){
+		abierto=false;
+		var puerta=document.getElementById("puerta");
+		interval = setInterval(function(){
+			if((puerta.offsetTop)<350){
+				puerta.style.top=puerta.offsetTop+5 +"px"; 
+			}else{
+				clearInterval(interval);
+			}
+			},10);
+	}
+	
+	function stop(){
+		clearInterval(interval);
+	}
+	
+</script>
+
+
+<body>
+	<button id="avanzar" onclick=avanzar()>Avanzar</button>
+	<button id="retroceder" onclick="retroceder()">Retroceder</button>
+	<button id="abrir" onclick="abrir()">Abrir</button>
+	<button id="cerrar" onclick="cerrar()">Cerrar</button>
+	<button id="parar" onclick="stop()">Parar</button>
+
+<div id="map">
+
+	<div id="coche"></div>
+	<div id="carretera"></div>
+	<div id="puerta"></div>
+
+
+</div>
+
+
+</body>
+</html>
