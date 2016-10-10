@@ -54,7 +54,6 @@
 		visibility: hidden;
 	}
 	</style>
-
 	<script type="text/javascript">
 	var clasificacion =[];		//Variables para la clasificacion
 	var contCoches=0;
@@ -72,9 +71,7 @@
 			coche.id="coche"+i;
 			document.getElementById("map").appendChild(coche);
 		}
-
 	}
-
 	function move(){	
 	document.getElementById("empezar").style.visibility="hidden";
 	var coche = document.getElementsByClassName("coche");	//Array de coches
@@ -83,9 +80,6 @@
 		go(c);
 	}
 	}
-
-	
-
 	//MUEVE TODOS LOS COCHES
 	function go(c){
 		var inte=setInterval(function(){
